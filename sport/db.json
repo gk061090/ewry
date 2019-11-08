@@ -1,0 +1,14 @@
+[{
+  "date": "2019-11-08",
+  "items": [{
+      "name": "stairs",
+      "label": "ступеньки",
+      "count": 1
+    },
+    {
+      "name": "push-ups",
+      "label": "отжимания",
+      "count": 30
+    }
+  ]
+}]
