@@ -2,6 +2,11 @@ body {
   padding: 1rem;
   margin: 0;
   font-family: sans-serif;
+  font-weight: 200;
+}
+
+.formblock {
+  margin-bottom: 2rem;
 }
 
 #form [name=title],
@@ -10,12 +15,16 @@ body {
   margin-bottom: 1rem;
 }
 
-.list__item {
-  padding: 1rem;
-  margin: 1rem 0;
-  border: 1px solid #ccc;
+.post {
+  margin: 1.5rem 0;
 }
 
-.list__nav {
+.post__date {
+  font-size: 0.75rem;
+  font-style: italic;
+  margin: 1.5rem 0;
+}
+
+.post__nav {
   padding: 0.5rem 0;
 }

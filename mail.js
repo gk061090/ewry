@@ -5,37 +5,38 @@ const listDOM = document.getElementById("list");
 
 const getItemLayout = ({ id, title, description, date }) => {
   return `\
-    <div class="list__item">\
-      <b>${title}</b>\
-      <br>\
-      ${description}\
-      <br>\
-      ${date}\
-      <br>\
-      <div class="list__nav">\
-        <button class="delete" data-id="${id}">Удалить</button>\
+    <div class="uk-card uk-card-default uk-card-body post">\
+      <h3 class="uk-card-title">${title}</h3>\
+      <p class="post__description">${description}</p>\
+      <div class="post__date">${new Date(date).toLocaleString("ru")}</div>\
+      <div class="post__nav">\
+        <button class="delete uk-button uk-button-danger post__btn" data-id="${id}">Удалить</button>\
       </div>\
     </div>`;
 };
 
 const getList = async () => {
-  const response = await fetch(url + secretQuery);
+  try {
+    const response = await fetch(url + secretQuery);
 
-  if (!response.ok) {
-    console.log("Response error");
-    return;
+    if (!response.ok) {
+      console.log("Response error");
+      return;
+    }
+
+    const data = await response.json();
+
+    return data
+      .map(({ _id: id, title, description, date }) => ({
+        id,
+        title,
+        description,
+        date
+      }))
+      .reverse();
+  } catch (err) {
+    document.body.innerHTML = "<p>Доступ закрыт</p>";
   }
-
-  const data = await response.json();
-
-  return data
-    .map(({ _id: id, title, description, date }) => ({
-      id,
-      title,
-      description,
-      date
-    }))
-    .reverse();
 };
 
 const removePost = async event => {
@@ -63,6 +64,9 @@ const removePost = async event => {
 const renderList = async getList => {
   listDOM.innerHTML = "<p>Идет загрузка...</p>";
   const list = await getList();
+  if (!list) {
+    return;
+  }
   listDOM.innerHTML = "";
   list.forEach(item => (listDOM.innerHTML += getItemLayout(item)));
   document.querySelectorAll(".delete").forEach(btn => {
