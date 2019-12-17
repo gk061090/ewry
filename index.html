@@ -6,16 +6,26 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link rel="shortcut icon" type="image/x-icon" href="data:image/x-icon;," />
     <title>Ewry</title>
+    <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
     <div>
       <p>Форма ввода</p>
       <form id="form" action="" method="post">
-        <input type="text" name="title" placeholder="Заголовок..." />
-        <input type="text" name="description" placeholder="Текст..." />
+        <div>
+          <input type="text" name="title" placeholder="Заголовок..." />
+        </div>
+        <div>
+          <textarea
+            name="description"
+            rows="10"
+            placeholder="Текст..."
+          ></textarea>
+        </div>
         <input type="submit" value="Отправить" />
       </form>
     </div>
+    <p>Записи</p>
     <div id="list"></div>
     <script src="./mail.js"></script>
   </body>

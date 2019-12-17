@@ -1,9 +1,25 @@
 const secret = prompt("password");
-const url = `https://ewry-api.herokuapp.com/api/v1/posts?secret=${secret}`;
+const secretQuery = `?secret=${secret}`;
+const url = "https://ewry-api.herokuapp.com/api/v1/posts";
 const listDOM = document.getElementById("list");
 
+const getItemLayout = ({ id, title, description, date }) => {
+  return `\
+    <div class="list__item">\
+      <b>${title}</b>\
+      <br>\
+      ${description}\
+      <br>\
+      ${date}\
+      <br>\
+      <div class="list__nav">\
+        <button class="delete" data-id="${id}">Удалить</button>\
+      </div>\
+    </div>`;
+};
+
 const getList = async () => {
-  const response = await fetch(url);
+  const response = await fetch(url + secretQuery);
 
   if (!response.ok) {
     console.log("Response error");
@@ -22,21 +38,44 @@ const getList = async () => {
     .reverse();
 };
 
+const removePost = async event => {
+  event.preventDefault();
+  const postId = event.target.getAttribute("data-id");
+  const hasConfirmation = confirm("Удалить?");
+
+  if (!hasConfirmation) {
+    return;
+  }
+
+  try {
+    const response = await fetch(`${url}/${postId}${secretQuery}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
+    renderList(getList);
+  } catch (error) {
+    console.error("Ошибка:", error);
+  }
+};
+
 const renderList = async getList => {
   listDOM.innerHTML = "<p>Идет загрузка...</p>";
   const list = await getList();
   listDOM.innerHTML = "";
-  list.forEach(({ id, title, description, date }) => {
-    const html = `<p id="${id}"><b>${title}</b><br>${description}<br>${date}</p>`;
-    listDOM.innerHTML += html;
+  list.forEach(item => (listDOM.innerHTML += getItemLayout(item)));
+  document.querySelectorAll(".delete").forEach(btn => {
+    btn.addEventListener("click", removePost);
   });
 };
 
 const sendForm = async event => {
   event.preventDefault();
-  const title = event.target.querySelector("input[name=title]").value;
-  const description = event.target.querySelector("input[name=description]")
-    .value;
+  const title = event.target.querySelector("input[name=title]").value.trim();
+  const description = event.target
+    .querySelector("textarea[name=description]")
+    .value.trim();
 
   if (!title || !description) {
     return;
@@ -45,7 +84,7 @@ const sendForm = async event => {
   const data = { title, description };
 
   try {
-    const response = await fetch(url, {
+    const response = await fetch(url + secretQuery, {
       method: "POST",
       body: JSON.stringify(data),
       headers: {
@@ -53,7 +92,6 @@ const sendForm = async event => {
       }
     });
     event.target.reset();
-    // const { title, description, date } = await response.json();
     renderList(getList);
   } catch (error) {
     console.error("Ошибка:", error);
