@@ -1,4 +1,5 @@
-const url = "https://ewry-api.herokuapp.com/api/v1/posts";
+const secret = prompt("password");
+const url = `https://ewry-api.herokuapp.com/api/v1/posts?secret=${secret}&delay=3000`;
 const listDOM = document.getElementById("list");
 
 const getList = async () => {
