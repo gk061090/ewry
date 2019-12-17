@@ -1,4 +1,4 @@
-const url = "http://localhost:3000/posts";
+const url = "https://ewry-api.herokuapp.com/api/v1/posts";
 const listDOM = document.getElementById("list");
 
 const getList = async () => {
