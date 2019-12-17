@@ -23,7 +23,9 @@ const getList = async () => {
 };
 
 const renderList = async getList => {
+  listDOM.innerHTML = "<p>Идет загрузка...</p>";
   const list = await getList();
+  listDOM.innerHTML = "";
   list.forEach(({ id, title, description, date }) => {
     const html = `<p id="${id}"><b>${title}</b><br>${description}<br>${date}</p>`;
     listDOM.innerHTML += html;
