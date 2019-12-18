@@ -9,8 +9,7 @@
     "build:server": "webpack --config ./config/webpack.config.server.js",
     "serve": "serve ./dist",
     "build": "yarn build:client && yarn build:server",
-    "start": "yarn build && node ./dist/server.js",
-    "heroku-prebuild": "yarn --dev"
+    "start": "yarn build && node ./dist/server.js"
   },
   "dependencies": {
     "@babel/polyfill": "^7.7.0",
