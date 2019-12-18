@@ -8,7 +8,8 @@
     "build:spa": "webpack --config ./config/webpack.config.spa.js",
     "build:client": "webpack --config ./config/webpack.config.client.js",
     "build:server": "webpack --config ./config/webpack.config.server.js",
-    "serve": "serve ./dist"
+    "serve": "serve ./dist",
+    "heroku-prebuild": "yarn --dev"
   },
   "dependencies": {
     "@babel/polyfill": "^7.7.0",
