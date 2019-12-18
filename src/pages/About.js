@@ -16,9 +16,7 @@ const About = ({ hello, setHello }) => {
       <button
         type="button"
         onClick={() => {
-          alert("1");
           setHello("HELLO");
-          alert("2");
         }}
       >
         Hello
