@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "yarn build:client && yarn build:server && node ./dist/server.js",
+    "start": "yarn build:client && yarn build:server && NODE_ENV=production node_modules/.bin/babel-node --presets 'es2015' ./dist/server.js",
     "dev": "webpack-dev-server --config ./config/webpack.config.dev.js",
     "build:spa": "webpack --config ./config/webpack.config.spa.js",
     "build:client": "webpack --config ./config/webpack.config.client.js",
