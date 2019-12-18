@@ -1,8 +1,8 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
+import React from "react";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
-import { setHello } from '../store/actions';
+import { setHello } from "../store/actions";
 
 // eslint-disable-next-line no-shadow
 const About = ({ hello, setHello }) => {
@@ -13,7 +13,14 @@ const About = ({ hello, setHello }) => {
       <br />
       {hello}
       <br />
-      <button type="button" onClick={() => setHello('HELLO')}>
+      <button
+        type="button"
+        onClick={() => {
+          alert("1");
+          setHello("HELLO");
+          alert("2");
+        }}
+      >
         Hello
       </button>
     </div>
@@ -27,8 +34,5 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = { setHello };
 
 export default {
-  component: connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(About)
+  component: connect(mapStateToProps, mapDispatchToProps)(About)
 };
