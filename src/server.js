@@ -8,7 +8,7 @@ import '@babel/polyfill';
 
 import Routes from './Routes';
 import { store } from './store';
-import { assetsByChunkName } from '../dist/stats.json';
+import { assetsByChunkName } from 'dist/stats.json';
 
 const app = express();
 

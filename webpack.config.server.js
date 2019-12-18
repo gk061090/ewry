@@ -11,7 +11,7 @@ module.exports = merge(baseConfig, {
   externals: [webpackNodeExternals()],
   output: {
     filename: 'server.js',
-    path: path.resolve(__dirname, '../dist')
+    path: path.resolve(__dirname, 'dist')
   },
   module: {
     rules: [
