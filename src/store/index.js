@@ -1,18 +1,18 @@
 /* eslint-disable no-underscore-dangle */
-import { createStore, applyMiddleware, compose } from 'redux';
-import thunk from 'redux-thunk';
+import { createStore, applyMiddleware, compose } from "redux";
+import thunk from "redux-thunk";
 
-import reducers from './reducers';
+import reducers from "./reducers";
 
 const middleware = [thunk];
 
 const composeEnhancers =
-  typeof window !== 'undefined'
+  (process.env.NODE_ENV === "development"
     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-    : compose; // eslint-disable-line
+    : null) || compose;
 
 let state;
-if (typeof window !== 'undefined') {
+if (typeof window !== "undefined") {
   state = window.__PRELOADED_STATE__;
   delete window.__PRELOADED_STATE__;
 }
