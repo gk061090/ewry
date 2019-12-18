@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "yarn build:client && yarn build:server && node ./dist/server.js",
     "dev": "webpack-dev-server --config ./config/webpack.config.dev.js",
     "build:spa": "webpack --config ./config/webpack.config.spa.js",
     "build:client": "webpack --config ./config/webpack.config.client.js",
     "build:server": "webpack --config ./config/webpack.config.server.js",
     "serve": "serve ./dist",
+    "build": "yarn build:client && yarn build:server",
     "heroku-prebuild": "yarn --dev"
   },
   "dependencies": {
