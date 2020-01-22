@@ -35,7 +35,7 @@ const getList = async () => {
       }))
       .reverse();
   } catch (err) {
-    document.body.innerHTML = "<p>Доступ закрыт</p>";
+    document.getElementById("root").innerHTML = "<p>Доступ закрыт</p>";
   }
 };
 
