@@ -55,8 +55,14 @@ body {
   border-radius: 3px;
 }
 
-.calendar__day--active {
+.calendar__day--good {
   color: #fff;
   background-color: #a913e6;
   border-color: #a913e6;
+}
+
+.calendar__day--normal {
+  color: #fff;
+  background-color: #5f88fd;
+  border-color: #5f88fd;
 }
