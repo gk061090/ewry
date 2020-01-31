@@ -1,21 +1,19 @@
-const dates = {
-  2019: {
-    12: [28, 29, 30]
-  },
-  2020: {
-    1: [2, 6, 9],
-    2: [2, 4, 5, 6]
-  }
-};
+const myCalendar = jsCalendar.new("#calendar", "now", {
+  navigatorPosition: "right",
+  monthFormat: "month YYYY",
+  dayFormat: "DDD",
+  firstDayOfTheWeek: "2",
+  language: "ru"
+});
 
 const format = value => (value <= 9 ? `0${value}` : value);
 
 const prepareDates = dates => {
   const strings = [];
   Object.entries(dates).map(([year, monthWitDays]) => {
-    Object.entries(monthWitDays).map(([month, days]) => {
-      days.map(day => {
-        console.log(`${year}.${format(month)}.${format(day)}`);
+    return Object.entries(monthWitDays).map(([month, days]) => {
+      return days.map(day => {
+        strings.push(`${format(day)}/${format(month)}/${year}`);
       });
     });
   });
@@ -23,8 +21,4 @@ const prepareDates = dates => {
   return strings;
 };
 
-prepareDates(dates);
-
-// const formatedDates = prepareDates(dates);
-
-// console.log(formatedDates);
+myCalendar.select(prepareDates(dates));

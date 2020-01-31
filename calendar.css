@@ -1,0 +1,28 @@
+.jsCalendar.custom-purple tbody td.jsCalendar-current {
+  background-color: #800080;
+  opacity: 0.5;
+}
+.jsCalendar.custom-purple tbody td.jsCalendar-selected {
+  color: #fff;
+  background: #800080;
+}
+.jsCalendar.custom-purple *::selection {
+  background: #800080;
+}
+.jsCalendar.custom-purple *::-moz-selection {
+  background: #800080;
+}
+.jsCalendar.material-theme.custom-purple thead {
+  background-color: #800080;
+}
+.jsCalendar.material-theme.custom-purple thead .jsCalendar-nav-left:hover,
+.jsCalendar.material-theme.custom-purple thead .jsCalendar-nav-right:hover {
+  background-color: #660066;
+}
+.jsCalendar.classic-theme.custom-purple thead {
+  background-color: #800080;
+}
+.jsCalendar.classic-theme.custom-purple thead .jsCalendar-nav-left:hover,
+.jsCalendar.classic-theme.custom-purple thead .jsCalendar-nav-right:hover {
+  background-color: #660066;
+}
