@@ -1,4 +1,4 @@
-const myCalendar = jsCalendar.new("#calendar", "now", {
+const badDrinksCalendar = jsCalendar.new("#calendar", "now", {
   navigatorPosition: "right",
   monthFormat: "month YYYY",
   dayFormat: "DDD",
@@ -21,4 +21,4 @@ const prepareDates = dates => {
   return strings;
 };
 
-myCalendar.select(prepareDates(dates));
+badDrinksCalendar.select(prepareDates(badDrinks));
