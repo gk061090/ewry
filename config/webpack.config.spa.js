@@ -41,7 +41,7 @@ module.exports = merge(baseConfig, {
   plugins: [
     new CompressionPlugin(),
     new HtmlWebPackPlugin({
-      template: "./index.html"
+      template: "./src/template/index.html"
     }),
     new CleanWebpackPlugin(),
     new webpack.DefinePlugin({

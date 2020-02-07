@@ -24,7 +24,7 @@ module.exports = merge(baseConfig, {
 
   plugins: [
     new HtmlWebPackPlugin({
-      template: "./index.html"
+      template: "./src/template/index.html"
     }),
     new webpack.HotModuleReplacementPlugin()
   ],
