@@ -1,20 +1,20 @@
-import React from 'react';
-import { renderToString } from 'react-dom/server';
-import { StaticRouter } from 'react-router-dom';
-import { matchRoutes, renderRoutes } from 'react-router-config';
-import express from 'express';
-import { Provider } from 'react-redux';
-import '@babel/polyfill';
+import React from "react";
+import { renderToString } from "react-dom/server";
+import { StaticRouter } from "react-router-dom";
+import { matchRoutes, renderRoutes } from "react-router-config";
+import express from "express";
+import { Provider } from "react-redux";
+import "@babel/polyfill";
 
-import Routes from './Routes';
-import { store } from './store';
-import { assetsByChunkName } from '../dist/stats.json';
+import Routes from "./Routes";
+import { store } from "./store";
+import { assetsByChunkName } from "../dist/public/stats.json";
 
 const app = express();
 
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 3000;
 
-app.use(express.static('dist'));
+app.use(express.static("dist"));
 
 // eslint-disable-next-line no-shadow
 const renderer = (req, store, context) => {
@@ -32,20 +32,18 @@ const renderer = (req, store, context) => {
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-      <link rel="stylesheet" type="text/css" href="/${
-        assetsByChunkName.main[0]
-      }" />
+      <link rel="stylesheet" type="text/css" href="/public/${assetsByChunkName.main[0]}" />
       <title>Document</title>
     </head>
     <body>
       <div id="root">${content}</div>
-      <script src="/${assetsByChunkName.main[1]}"></script>
+      <script src="/public/${assetsByChunkName.main[1]}"></script>
     </body>
   </html>`;
 };
 
-app.get('*', (req, res) => {
-  const params = req.params[0].split('/');
+app.get("*", (req, res) => {
+  const params = req.params[0].split("/");
   const id = params[2];
 
   const routes = matchRoutes(Routes, req.path);
