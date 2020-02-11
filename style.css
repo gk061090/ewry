@@ -66,3 +66,26 @@ body {
   background-color: #5f88fd;
   border-color: #5f88fd;
 }
+
+.todo-form {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.todo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.todo-form #sum {
+  border: 1px solid #777;
+  border-radius: 5px;
+  margin-left: 10px;
+  padding: 10px;
+}
+
+.todo p {
+  width: 100%;
+}

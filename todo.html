@@ -18,17 +18,42 @@
     <a href="/ewry/calendar">Календарь</a>
     <div id="todo">
       <div class="uk-width-1-2@m">
-        <h2>Todo</h2>
-        <ul class="uk-list uk-list-divider">
-          <li>Делать по коммиту в день</li>
-          <li>Учиться и делать конспект/отчет в заметки</li>
-          <li>Перенос на React</li>
-          <li>Подключение Redux/Thunk</li>
-          <li>Подключение Router</li>
-          <li>SSR</li>
-          <li>Todo API</li>
-          <li>Typescript config</li>
-        </ul>
+        <h2>Expense journal</h2>
+        <div class="todo-form">
+          <form id="form">
+            <div>
+              <input
+                class="uk-input"
+                type="tel"
+                name="todo"
+                placeholder="add todo..."
+                onkeyup="this.value=this.value.replace(/[^\d]/,'')"
+              />
+              <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+                <label>
+                  <input
+                    class="uk-radio"
+                    type="radio"
+                    name="radio"
+                    value="1"
+                    checked
+                  />
+                  Я
+                </label>
+                <label>
+                  <input class="uk-radio" type="radio" name="radio" value="2" />
+                  Мы
+                </label>
+              </div>
+            </div>
+            <button class="uk-button uk-button-primary" type="submit">
+              Add
+            </button>
+          </form>
+          <div id="sum"></div>
+        </div>
+        <hr />
+        <ul class="uk-list uk-list-divider" id="todo-list"></ul>
       </div>
     </div>
     <script src="todo.js"></script>
