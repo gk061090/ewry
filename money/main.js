@@ -25,30 +25,50 @@ class Form extends React.Component {
   render() {
     const { value, checkedValue } = this.state;
     return (
-      <form>
-        <input
-          value={value}
-          onChange={this.handleChange}
-          type="tel"
-          placeholder="cost"
-        />
-        <div>
-          <input
-            type="radio"
-            value={"1"}
-            onChange={this.handleCheck}
-            checked={checkedValue === "1"}
-          />
-          <input
-            type="radio"
-            value={"2"}
-            onChange={this.handleCheck}
-            checked={checkedValue === "2"}
-          />
+      <form className="col s12">
+        <div className="row">
+          <div className="input-field col s12">
+            <input
+              id="input-id"
+              type="tel"
+              value={value}
+              onChange={this.handleChange}
+              className="validate"
+            />
+            <label for="input-id">Cost</label>
+          </div>
+          <div className="col">
+            <label>
+              <input
+                type="radio"
+                value={"1"}
+                onChange={this.handleCheck}
+                checked={checkedValue === "1"}
+              />
+              <span>Я</span>
+            </label>
+          </div>
+          <div className="col">
+            <label>
+              <input
+                type="radio"
+                value={"2"}
+                onChange={this.handleCheck}
+                checked={checkedValue === "2"}
+              />
+              <span>Мы</span>
+            </label>
+          </div>
         </div>
-        <button onClick={this.handleSubmit} type="submit">
-          Add
-        </button>
+        <div>
+          <button
+            className="waves-effect waves-light btn"
+            onClick={this.handleSubmit}
+            type="submit"
+          >
+            Add
+          </button>
+        </div>
       </form>
     );
   }
@@ -60,19 +80,66 @@ class List extends React.Component {
     onRemove(event.target.getAttribute("listId"));
   };
 
+  getTotal = list => {
+    if (list.length === 0) {
+      return 0;
+    }
+    return (
+      Number(
+        list.reduce((a, b) => ({
+          value: +a.value + +b.value
+        })).value
+      ).toLocaleString() + " р."
+    );
+  };
+
   render() {
     const { list } = this.props;
+
+    if (list.length === 0) {
+      return <p>Empty list</p>;
+    }
+
     return (
-      <ul>
-        {list.map(({ value, type, date }) => (
-          <li key={date}>
-            {type} {value} {new Date(date).toLocaleString()}
-            <button listId={date} onClick={this.handleRemove}>
-              Delete
-            </button>
-          </li>
-        ))}
-      </ul>
+      <React.Fragment>
+        <p>
+          <b>S</b>: {this.getTotal(list)}
+        </p>
+        <p>
+          <b>1</b>: {this.getTotal(list.filter(({ type }) => type === "1"))}
+        </p>
+        <p>
+          <b>2</b>: {this.getTotal(list.filter(({ type }) => type === "2"))}
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>Cost</th>
+              <th>Date</th>
+              <th />
+            </tr>
+          </thead>
+          <tbody>
+            {list.map(({ value, type, date }) => (
+              <tr key={date}>
+                <td>{type}</td>
+                <td>{Number(value).toLocaleString()} р.</td>
+                <td>{new Date(date).toLocaleString()}</td>
+                <td>
+                  <button
+                    listId={date}
+                    onClick={this.handleRemove}
+                    className="waves-effect waves-light btn-small red darken-2"
+                  >
+                    Del
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </React.Fragment>
     );
   }
 }
