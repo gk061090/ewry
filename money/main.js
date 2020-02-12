@@ -167,6 +167,12 @@ class App extends React.Component {
 
   handleRemove = id => {
     const { list } = this.state;
+
+    const confirmed = confirm("Delete?");
+    if (!confirmed) {
+      return;
+    }
+
     this.setState(prevState => {
       const state = {
         ...prevState,
