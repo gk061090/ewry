@@ -12,7 +12,28 @@ body {
 }
 
 .statistics {
-  margin-right: 20px;
+  margin-right: 15px;
+  margin-bottom: 15px;
+}
+
+.statistics .uk-card-statistics {
+  padding: 12px;
+}
+
+.statistics .statistics-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.statistics .statistics-row > div {
+  margin-right: 10px;
+}
+
+.statistics .statistics-divider {
+  height: 1px;
+  margin: 10px 0;
+  background-color: #eee;
 }
 
 .list {

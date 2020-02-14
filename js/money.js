@@ -88,7 +88,7 @@ class Form extends React.Component {
               checked={checkedValue === "1"}
               class="uk-radio"
             />
-            <span> Я</span>
+            <span> 🚶‍♂️</span>
           </label>
           <span>&nbsp;&nbsp;</span>
           <label>
@@ -99,7 +99,7 @@ class Form extends React.Component {
               checked={checkedValue === "2"}
               class="uk-radio"
             />
-            <span> Мы</span>
+            <span> 👫</span>
           </label>
         </div>
         {/* Cost Input */}
@@ -144,12 +144,31 @@ const Statistics = ({ list }) => {
 
   return (
     <div className="statistics">
-      <div className="uk-card uk-card-default uk-card-small uk-card-body">
-        S: {getTotal(list)}
-        <br />
-        1: {getTotal(list.filter(({ type }) => type === "1"))}
-        <br />
-        2: {getTotal(list.filter(({ type }) => type === "2"))}
+      <div className="uk-card uk-card-default uk-card-statistics uk-card-body">
+        <div className="statistics-row">
+          <div>👨‍👩‍👧‍👦</div>
+          <div>{getTotal(list)}</div>
+        </div>
+        <div className="statistics-divider" />
+        <div className="statistics-row">
+          <div>🚶‍♂️</div>
+          <div>{getTotal(list.filter(({ type }) => type === "1"))}</div>
+        </div>
+        <div className="statistics-row">
+          <div>👫</div>
+          <div>{getTotal(list.filter(({ type }) => type === "2"))}</div>
+        </div>
+        <div className="statistics-divider" />
+        <div className="statistics-row">
+          <div>🥩</div>
+          <div>
+            {getTotal(list.filter(({ product }) => product === "food"))}
+          </div>
+        </div>
+        <div className="statistics-row">
+          <div>🙉</div>
+          <div>{getTotal(list.filter(({ product }) => product === ""))}</div>
+        </div>
       </div>
     </div>
   );
@@ -267,7 +286,7 @@ class List extends React.Component {
         <table className="uk-table uk-table-small uk-table-divider">
           <thead>
             <tr>
-              <th>👪</th>
+              <th>👨‍👩‍👧‍👦</th>
               <th>💰</th>
               <th>🤷</th>
               <th>📅⌚</th>
@@ -277,9 +296,9 @@ class List extends React.Component {
           <tbody>
             {list.map(({ id, value, type, product, date }) => (
               <tr key={id}>
-                <td>{type === "1" ? "🧛" : "👬"}</td>
+                <td>{type === "1" ? "🚶‍♂️" : "👫"}</td>
                 <td>{Number(value).toLocaleString()} р.</td>
-                <td>{product === "food" ? "🍗" : "🙉"}</td>
+                <td>{product === "food" ? "🥩" : "🙉"}</td>
                 <td>
                   {new Date(date)
                     .toLocaleString()
