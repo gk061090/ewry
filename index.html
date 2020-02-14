@@ -3,56 +3,31 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link rel="shortcut icon" type="image/x-icon" href="data:image/x-icon;," />
-    <title>Ewry</title>
+    <title>Ewry Money</title>
     <link
       rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/uikit@3.2.6/dist/css/uikit.min.css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
     />
-    <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" href="/css/money.css" />
   </head>
-
   <body>
-    <nav>
-      <span>Main</span>
-      <span> | </span>
-      <a href="/ewry/money">Money</a>
-      <span> | </span>
-      <a href="/ewry/calendar">Календарь</a>
-    </nav>
-    <div id="root">
-      <div class="uk-width-1-2@m formblock">
-        <h3>Форма ввода</h3>
-        <form id="form" action="" method="post">
-          <div>
-            <input
-              type="text"
-              class="uk-input"
-              name="title"
-              placeholder="Заголовок..."
-            />
-          </div>
-          <div>
-            <textarea
-              name="description"
-              class="uk-textarea"
-              rows="5"
-              placeholder="Текст..."
-            ></textarea>
-          </div>
-          <input
-            type="submit"
-            class="uk-button uk-button-primary"
-            value="Отправить"
-          />
-        </form>
+    <!-- <nav>
+      <div class="container">
+        <a href="/ewry/notes/">Notes</a>
+        <span> | </span>
+        <span>Money</span>
+        <span> | </span>
+        <a href="/ewry/calendar/">Календарь</a>
       </div>
-      <div class="uk-width-1-2@m">
-        <h3>Записи</h3>
-        <div id="list"></div>
-      </div>
+    </nav> -->
+    <div class="container">
+      <div id="root"></div>
     </div>
-    <script src="main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.12.0/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.11.0/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script type="text/babel" src="/js/money.js"></script>
   </body>
 </html>
