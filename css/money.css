@@ -1,8 +1,8 @@
 body {
-  padding: 1rem;
+  padding: 15px 10px;
   margin: 0;
   font-family: sans-serif;
-  font-weight: 200;
+  font-weight: 300;
 }
 
 .form-block {
@@ -12,10 +12,14 @@ body {
 }
 
 .statistics {
-  border: 1px solid #ddd;
-  border-radius: 5px;
   margin-right: 20px;
-  padding: 0 10px;
-  color: #fff;
-  background-color: #26a69a;
+}
+
+.list {
+  font-size: 14px;
+}
+
+.list .date-time {
+  font-size: 12px;
+  line-height: 0.95;
 }

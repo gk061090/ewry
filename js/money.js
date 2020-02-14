@@ -11,11 +11,12 @@ class Form extends React.Component {
   state = {
     value: "",
     datetime: this.formatDate(new Date()),
-    checkedValue: "1"
+    checkedValue: "1",
+    product: "food"
   };
 
   handleChange = event => {
-    const value = event.target.value;
+    const { value } = event.target;
     if (!value.match(/^[0-9]*$/gm)) {
       return;
     }
@@ -23,58 +24,71 @@ class Form extends React.Component {
   };
 
   handleDateChange = event => {
-    const datetime = event.target.value;
+    const { value: datetime } = event.target;
     this.setState(state => ({ ...state, datetime }));
   };
 
   handleCheck = event => {
-    const value = event.target.value;
+    const { value } = event.target;
     this.setState(state => ({ ...state, checkedValue: value }));
+  };
+
+  handleSelect = event => {
+    const { value: product } = event.target;
+    this.setState(state => ({ ...state, product }));
   };
 
   handleSubmit = event => {
     event.preventDefault();
     const { onAdd } = this.props;
-    const { value, datetime, checkedValue } = this.state;
+    const { value, datetime, checkedValue, product } = this.state;
     const date = new Date(datetime).getTime();
     if (isNaN(date) || date < 0) {
       return;
     }
     const id = `${date}${this.getRandom(10, 99)}`;
-    onAdd({ id, value, type: checkedValue, date });
+    onAdd({ id, value, type: checkedValue, product, date });
     this.setState(state => ({ ...state, value: "" }));
   };
 
   render() {
-    const { value, datetime, checkedValue } = this.state;
+    const { value, datetime, checkedValue, product } = this.state;
     return (
       <form>
-        <div className="input-field col s12">
-          <input
-            id="input-id"
-            type="tel"
-            value={value}
-            onChange={this.handleChange}
-            className="validate"
-          />
-          <label for="input-id">Cost</label>
-        </div>
-        <div className="row">
+        {/* Date Input */}
+        <div className="uk-margin">
           <input
             type="datetime-local"
             value={datetime}
             onChange={this.handleDateChange}
+            className="uk-input uk-form-small"
           />
         </div>
-        <div className="row">
+        {/* Select Input */}
+        <div className="uk-margin">
+          <select
+            onChange={this.handleSelect}
+            className="uk-select uk-form-small"
+          >
+            <option value="food" selected={product === "food"}>
+              Food
+            </option>
+            <option value="" selected={product === ""}>
+              Other
+            </option>
+          </select>
+        </div>
+        {/* Radio Input */}
+        <div className="uk-margin">
           <label>
             <input
               type="radio"
               value={"1"}
               onChange={this.handleCheck}
               checked={checkedValue === "1"}
+              class="uk-radio"
             />
-            <span>Я</span>
+            <span> Я</span>
           </label>
           <span>&nbsp;&nbsp;</span>
           <label>
@@ -83,15 +97,28 @@ class Form extends React.Component {
               value={"2"}
               onChange={this.handleCheck}
               checked={checkedValue === "2"}
+              class="uk-radio"
             />
-            <span>Мы</span>
+            <span> Мы</span>
           </label>
         </div>
-        <div>
+        {/* Cost Input */}
+        <div className="uk-margin">
+          <input
+            id="input-id"
+            type="tel"
+            value={value}
+            onChange={this.handleChange}
+            className="uk-input uk-form-small"
+            placeholder="Input cost..."
+          />
+        </div>
+        {/* Submit Button */}
+        <div className="uk-margin">
           <button
-            className="waves-effect waves-light btn"
-            onClick={this.handleSubmit}
             type="submit"
+            onClick={this.handleSubmit}
+            className="uk-button uk-button-primary"
           >
             Add
           </button>
@@ -117,76 +144,172 @@ const Statistics = ({ list }) => {
 
   return (
     <div className="statistics">
-      <p>
-        <b>S</b>: {getTotal(list)}
-      </p>
-      <p>
-        <b>1</b>: {getTotal(list.filter(({ type }) => type === "1"))}
-      </p>
-      <p>
-        <b>2</b>: {getTotal(list.filter(({ type }) => type === "2"))}
-      </p>
+      <div className="uk-card uk-card-default uk-card-small uk-card-body">
+        S: {getTotal(list)}
+        <br />
+        1: {getTotal(list.filter(({ type }) => type === "1"))}
+        <br />
+        2: {getTotal(list.filter(({ type }) => type === "2"))}
+      </div>
     </div>
   );
 };
 
+const ImportForm = ({ value, onInput, onSubmit, onClose, hasCloseButton }) => (
+  <div className="uk-margin">
+    <form>
+      {hasCloseButton && (
+        <button
+          type="button"
+          onClick={onClose}
+          className="uk-button uk-button-default uk-button-small"
+        >
+          👋
+        </button>
+      )}
+      <input
+        type="text"
+        value={value}
+        onChange={onInput}
+        className="uk-input uk-form-small uk-width-auto"
+        placeholder="Paste..."
+      />
+      <button
+        type="submit"
+        onClick={onSubmit}
+        className="uk-button uk-button-danger uk-button-small"
+      >
+        Import
+      </button>
+    </form>
+  </div>
+);
+
 class List extends React.Component {
+  state = { isOpen: false, value: "" };
+
   handleRemove = event => {
     const { onRemove } = this.props;
     onRemove(event.target.getAttribute("listId"));
   };
 
+  toggle = () => {
+    this.setState(state => ({ ...state, isOpen: !state.isOpen }));
+  };
+
+  close = () => {
+    this.setState(state => ({ ...state, isOpen: false }));
+  };
+
+  handleInput = event => {
+    const { value } = event.target;
+    this.setState(state => ({ ...state, value }));
+  };
+
+  handleSubmit = event => {
+    event.preventDefault();
+    const { onImport } = this.props;
+    const { value } = this.state;
+    onImport(value);
+    this.setState(state => ({ ...state, value: "" }));
+  };
+
   render() {
-    const { list, onSort } = this.props;
+    const { list, onSort, onCopy } = this.props;
+    const { isOpen, value } = this.state;
 
     if (list.length === 0) {
-      return <p>Empty list</p>;
+      return (
+        <div>
+          <ImportForm
+            value={value}
+            onInput={this.handleInput}
+            onSubmit={this.handleSubmit}
+            onClose={this.close}
+          />
+          <p>Empty list</p>
+        </div>
+      );
     }
 
     return (
-      <React.Fragment>
+      <div className="list">
         <button
           type="button"
           onClick={onSort}
-          className="waves-effect waves-light btn-small"
+          className="uk-button uk-button-primary uk-button-small"
         >
           &darr;
         </button>
-        <table>
+        <button
+          type="button"
+          onClick={onCopy}
+          className="uk-button uk-button-default uk-button-small"
+        >
+          💾
+        </button>
+        <button
+          type="button"
+          onClick={this.toggle}
+          className="uk-button uk-button-default uk-button-small"
+        >
+          📝
+        </button>
+        {isOpen && (
+          <ImportForm
+            value={value}
+            onInput={this.handleInput}
+            onSubmit={this.handleSubmit}
+            onClose={this.close}
+            hasCloseButton
+          />
+        )}
+        <table className="uk-table uk-table-small uk-table-divider">
           <thead>
             <tr>
-              <th>Type</th>
-              <th>Cost</th>
-              <th>Date</th>
+              <th>👪</th>
+              <th>💰</th>
+              <th>🤷</th>
+              <th>📅⌚</th>
               <th />
             </tr>
           </thead>
           <tbody>
-            {list.map(({ id, value, type, date }) => (
+            {list.map(({ id, value, type, product, date }) => (
               <tr key={id}>
-                <td>{type}</td>
+                <td>{type === "1" ? "🧛" : "👬"}</td>
                 <td>{Number(value).toLocaleString()} р.</td>
-                <td>{new Date(date).toLocaleString()}</td>
+                <td>{product === "food" ? "🍗" : "🙉"}</td>
+                <td>
+                  {new Date(date)
+                    .toLocaleString()
+                    .split(" ")
+                    .map(item => (
+                      <div className="date-time">{item}</div>
+                    ))}
+                </td>
                 <td>
                   <button
                     listId={id}
                     onClick={this.handleRemove}
-                    className="waves-effect waves-light btn-small red darken-2"
+                    className="uk-button uk-button-default uk-button-small"
                   >
-                    Del
+                    🗑️
                   </button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
-      </React.Fragment>
+      </div>
     );
   }
 }
 
 class App extends React.Component {
-  state = { list: JSON.parse(localStorage.getItem("money") || "[]") };
+  getList = () => JSON.parse(localStorage.getItem("money") || "[]");
+
+  state = { list: this.getList() };
 
   saveLocal = list => {
     localStorage.setItem("money", JSON.stringify(list));
@@ -235,6 +358,47 @@ class App extends React.Component {
     });
   };
 
+  handleCopy = () => {
+    const list = localStorage.getItem("money");
+    navigator.clipboard.writeText(list);
+  };
+
+  handleImport = value => {
+    if (!value.trim()) {
+      return;
+    }
+    let parsed;
+    try {
+      parsed = JSON.parse(value);
+    } catch (e) {
+      alert("Некорректные данные! Не JSON");
+      return;
+    }
+    if (!Array.isArray(parsed)) {
+      alert("Некорректные данные! Нет нужен массив");
+      return;
+    }
+    const isCorrect =
+      parsed.length ===
+      parsed.filter(
+        ({ id, value, type, product, date }) =>
+          Boolean(id) &&
+          Boolean(value) &&
+          Boolean(type) &&
+          Boolean(product) &&
+          Boolean(date)
+      ).length;
+    if (!isCorrect) {
+      alert("Ошибка в данных!");
+      return;
+    }
+    localStorage.setItem("money", value);
+    this.setState(prevState => ({
+      ...prevState,
+      list: this.getList()
+    }));
+  };
+
   render() {
     const { list } = this.state;
     return (
@@ -247,6 +411,8 @@ class App extends React.Component {
           list={list}
           onRemove={this.handleRemove}
           onSort={this.handleSort}
+          onCopy={this.handleCopy}
+          onImport={this.handleImport}
         />
       </React.Fragment>
     );
