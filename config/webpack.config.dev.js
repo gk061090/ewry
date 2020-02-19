@@ -1,6 +1,6 @@
 const path = require("path");
-const HtmlWebPackPlugin = require("html-webpack-plugin");
-const webpack = require("webpack");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const { HotModuleReplacementPlugin } = require("webpack");
 const merge = require("webpack-merge");
 
 const baseConfig = require("./webpack.config.base");
@@ -10,7 +10,7 @@ module.exports = merge(baseConfig, {
   entry: "./src/client.js",
   output: {
     filename: "bundle.js",
-    path: path.resolve(__dirname, "../public"),
+    path: path.resolve(__dirname, "../dist/public"),
     publicPath: "/"
   },
   module: {
@@ -21,15 +21,14 @@ module.exports = merge(baseConfig, {
       }
     ]
   },
-
   plugins: [
-    new HtmlWebPackPlugin({
-      template: "./src/template/index.html"
+    new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, "../src/static/index.html")
     }),
-    new webpack.HotModuleReplacementPlugin()
+    new HotModuleReplacementPlugin()
   ],
   devServer: {
-    contentBase: "./public",
+    contentBase: path.resolve(__dirname, "../dist/public"),
     hot: true,
     port: 3001,
     open: true,

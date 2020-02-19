@@ -1,6 +1,6 @@
 const path = require("path");
 const HtmlWebPackPlugin = require("html-webpack-plugin");
-const webpack = require("webpack");
+const { DefinePlugin } = require("webpack");
 const merge = require("webpack-merge");
 const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
 const CompressionPlugin = require("compression-webpack-plugin");
@@ -13,7 +13,7 @@ module.exports = merge(baseConfig, {
   entry: "./src/client.js",
   output: {
     filename: "bundle.[chunkhash].js",
-    path: path.resolve(__dirname, "../dist"),
+    path: path.resolve(__dirname, "../dist/public"),
     publicPath: "/"
   },
   optimization: {
@@ -41,10 +41,10 @@ module.exports = merge(baseConfig, {
   plugins: [
     new CompressionPlugin(),
     new HtmlWebPackPlugin({
-      template: "./src/template/index.html"
+      template: path.resolve(__dirname, "../src/static/index.html")
     }),
     new CleanWebpackPlugin(),
-    new webpack.DefinePlugin({
+    new DefinePlugin({
       "process.env": {
         NODE_ENV: JSON.stringify("production")
       }

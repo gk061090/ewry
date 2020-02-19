@@ -1,8 +1,8 @@
-import Home from './pages/Home';
-import About from './pages/About';
-import Todo from './pages/Todo';
-import NotFound from './pages/NotFound';
-import App from './App';
+import Home from "./pages/Home";
+import About from "./pages/About";
+import NotFound from "./pages/NotFound";
+import App from "./components/App";
+import Todo from "./pages/Todo";
 
 export default [
   {
@@ -10,16 +10,16 @@ export default [
     routes: [
       {
         ...Home,
-        path: '/',
+        path: "/",
         exact: true
       },
       {
         ...About,
-        path: '/about'
+        path: "/about"
       },
       {
         ...Todo,
-        path: '/todo'
+        path: "/todo"
       },
       {
         ...NotFound

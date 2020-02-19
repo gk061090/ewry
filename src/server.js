@@ -4,6 +4,7 @@ import { StaticRouter } from "react-router-dom";
 import { matchRoutes, renderRoutes } from "react-router-config";
 import express from "express";
 import { Provider } from "react-redux";
+import serialize from "serialize-javascript";
 import "@babel/polyfill";
 
 import Routes from "./Routes";
@@ -32,11 +33,19 @@ const renderer = (req, store, context) => {
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-      <link rel="stylesheet" type="text/css" href="/public/${assetsByChunkName.main[0]}" />
+      <link rel="stylesheet" type="text/css" href="/public/${
+        assetsByChunkName.main[0]
+      }" />
       <title>Document</title>
     </head>
     <body>
       <div id="root">${content}</div>
+      <script>
+      window.__PRELOADED_STATE__ = ${serialize(store.getState()).replace(
+        /</g,
+        "\\u003c"
+      )}
+      </script>
       <script src="/public/${assetsByChunkName.main[1]}"></script>
     </body>
   </html>`;
@@ -49,13 +58,10 @@ app.get("*", (req, res) => {
   const routes = matchRoutes(Routes, req.path);
 
   const promises = routes
-    .map(({ route }) => {
-      return route.loadData ? route.loadData(store, id) : null;
-    })
+    .map(({ route }) => (route.loadData ? route.loadData(store, id) : null))
     .map(promise => {
       if (promise) {
-        // eslint-disable-next-line no-unused-vars
-        return new Promise((resolve, reject) => {
+        return new Promise(resolve => {
           promise.then(resolve).catch(resolve);
         });
       }

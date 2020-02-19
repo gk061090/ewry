@@ -1,5 +1,5 @@
 const path = require("path");
-const webpack = require("webpack");
+const { DefinePlugin } = require("webpack");
 const merge = require("webpack-merge");
 const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
 const CompressionPlugin = require("compression-webpack-plugin");
@@ -42,12 +42,13 @@ module.exports = merge(baseConfig, {
   plugins: [
     new CompressionPlugin(),
     new CleanWebpackPlugin(),
-    new webpack.DefinePlugin({
+    new DefinePlugin({
       "process.env": {
         NODE_ENV: JSON.stringify("production")
       }
     }),
     new StatsWriterPlugin({
+      // filename: 'stats.json',
       stats: {
         all: false,
         assets: true
@@ -56,7 +57,5 @@ module.exports = merge(baseConfig, {
     new MiniCssExtractPlugin({
       filename: "styles.[chunkhash].css"
     })
-  ],
-
-  devtool: "inline-source-map"
+  ]
 });
