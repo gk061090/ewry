@@ -205,7 +205,7 @@ const ImportForm = ({ value, onInput, onSubmit, onClose, hasCloseButton }) => (
 );
 
 class List extends React.Component {
-  state = { isOpen: false, value: "" };
+  state = { isOpen: false, value: "", isShortList: true };
 
   handleRemove = event => {
     const { onRemove } = this.props;
@@ -233,9 +233,12 @@ class List extends React.Component {
     this.setState(state => ({ ...state, value: "" }));
   };
 
+  toggleAllList = () =>
+    this.setState(state => ({ ...state, isShortList: !state.isShortList }));
+
   render() {
     const { list, onSort, onCopy } = this.props;
-    const { isOpen, value } = this.state;
+    const { isOpen, value, isShortList } = this.state;
 
     if (list.length === 0) {
       return (
@@ -294,32 +297,41 @@ class List extends React.Component {
             </tr>
           </thead>
           <tbody>
-            {list.map(({ id, value, type, product, date }) => (
-              <tr key={id}>
-                <td>{type === "1" ? "🚶‍♂️" : "👫"}</td>
-                <td>{Number(value).toLocaleString()} р.</td>
-                <td>{product === "food" ? "🥩" : "🙉"}</td>
-                <td>
-                  {new Date(date)
-                    .toLocaleString()
-                    .split(" ")
-                    .map(item => (
-                      <div className="date-time">{item}</div>
-                    ))}
-                </td>
-                <td>
-                  <button
-                    listId={id}
-                    onClick={this.handleRemove}
-                    className="uk-button uk-button-default uk-button-small"
-                  >
-                    🗑️
-                  </button>
-                </td>
-              </tr>
-            ))}
+            {list
+              .filter((_, index) => (isShortList ? index < 10 : true))
+              .map(({ id, value, type, product, date }) => (
+                <tr key={id}>
+                  <td>{type === "1" ? "🚶‍♂️" : "👫"}</td>
+                  <td>{Number(value).toLocaleString()} р.</td>
+                  <td>{product === "food" ? "🥩" : "🙉"}</td>
+                  <td>
+                    {new Date(date)
+                      .toLocaleString()
+                      .split(" ")
+                      .map(item => (
+                        <div className="date-time">{item}</div>
+                      ))}
+                  </td>
+                  <td>
+                    <button
+                      listId={id}
+                      onClick={this.handleRemove}
+                      className="uk-button uk-button-default uk-button-small"
+                    >
+                      🗑️
+                    </button>
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
+        <button
+          type="button"
+          onClick={this.toggleAllList}
+          className="uk-button uk-button-default uk-button-small"
+        >
+          Show {isShortList ? "all" : "short"} list
+        </button>
       </div>
     );
   }
@@ -395,20 +407,6 @@ class App extends React.Component {
     }
     if (!Array.isArray(parsed)) {
       alert("Некорректные данные! Нет нужен массив");
-      return;
-    }
-    const isCorrect =
-      parsed.length ===
-      parsed.filter(
-        ({ id, value, type, product, date }) =>
-          Boolean(id) &&
-          Boolean(value) &&
-          Boolean(type) &&
-          Boolean(product) &&
-          Boolean(date)
-      ).length;
-    if (!isCorrect) {
-      alert("Ошибка в данных!");
       return;
     }
     localStorage.setItem("money", value);
