@@ -361,10 +361,12 @@ class App extends React.Component {
   };
 
   handleRemove = id => {
+    /*
     const confirmed = confirm("Delete?");
     if (!confirmed) {
       return;
     }
+    */
 
     this.setState(prevState => {
       const state = {
